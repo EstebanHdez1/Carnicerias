@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom mobile touches */
+@layer utilities {
+  .touch-btn {
+    @apply min-h-[48px] px-4 py-2.5 rounded-xl font-medium active:scale-[0.98] transition-transform duration-100 flex items-center justify-center gap-2;
+  }
+}
+
+/* Hide scrollbars for clean mobile feel where needed */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Remove spin buttons from number inputs where only +/- buttons should be used */
+.no-spin::-webkit-outer-spin-button,
+.no-spin::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+.no-spin {
+  -moz-appearance: textfield !important;
+}
+
+/* Hide thermal print container in normal browser view */
+#print-root {
+  display: none;
+}
+
+/* Bulletproof Professional Receipt Printing Rules */
+@media print {
+  @page {
+    margin: 0 !important; /* Suppresses browser headers like 'localhost:5173' and date */
+    size: 80mm auto;      /* Continuous thermal roll / single page */
+  }
+
+  /* Reset document flow */
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Completely remove the application root from layout so it produces 0 height and 0 extra pages */
+  #root {
+    display: none !important;
+  }
+
+  /* Display ONLY the dedicated print portal container */
+  #print-root {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 80mm !important;
+    margin: 0 auto !important;
+    padding: 6mm 4mm !important;
+    box-sizing: border-box !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    page-break-inside: avoid !important;
+    page-break-after: avoid !important;
+    break-inside: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}
