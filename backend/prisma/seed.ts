@@ -1,5 +1,5 @@
-import { prisma } from './src/config/prisma.js';
-import { runInitialSeed } from './src/services/seed.service.js';
+import { prisma } from '../src/config/prisma.js';
+import { runInitialSeed } from '../src/services/seed.service.js';
 
 async function main() {
   console.log('--- Iniciando Seed de Carnicería ---');
