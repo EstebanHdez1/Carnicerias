@@ -506,8 +506,8 @@ export default function InventoryView() {
                 </label>
                 <input
                   type="number"
-                  step="0.05"
-                  min="0.01"
+                  step="any"
+                  min="0.001"
                   required
                   placeholder="0.0"
                   value={adjQuantity}

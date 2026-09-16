@@ -397,7 +397,7 @@ export default function ProductsList() {
                     </label>
                     <input
                       type="number"
-                      step="0.1"
+                      step="any"
                       min="0"
                       placeholder="0"
                       value={formData.current_stock}
@@ -413,8 +413,8 @@ export default function ProductsList() {
                   </label>
                   <input
                     type="number"
-                    step="100"
-                    min="1"
+                    step="any"
+                    min="0"
                     required
                     placeholder="Ej. 18000"
                     value={formData.sale_price}
