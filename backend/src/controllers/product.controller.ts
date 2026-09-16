@@ -179,7 +179,10 @@ export async function deleteProduct(req: Request, res: Response, next: NextFunct
     const { id } = req.params;
     const existing = await prisma.product.findUnique({
       where: { id },
-      include: { sale_items: { take: 1 } },
+      include: {
+        sale_items: { take: 1 },
+        movements: { take: 1 },
+      },
     });
 
     if (!existing) {
@@ -210,8 +213,15 @@ export async function deleteProduct(req: Request, res: Response, next: NextFunct
       return;
     }
 
-    // Otherwise can safely delete
-    await prisma.product.delete({ where: { id } });
+    // Otherwise, clean up initial inventory movements and delete product safely
+    await prisma.$transaction(async (tx) => {
+      await tx.inventoryMovement.deleteMany({
+        where: { product_id: id },
+      });
+      await tx.product.delete({
+        where: { id },
+      });
+    });
 
     if (req.user) {
       await recordAuditLog({

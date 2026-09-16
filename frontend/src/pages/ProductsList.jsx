@@ -89,7 +89,6 @@ export default function ProductsList() {
 
   const openEditModal = (prod) => {
     setEditingProduct(prod);
-    setShowDraftNotice(false);
     setFormData({
       name: prod.name,
       category_id: prod.category_id,
