@@ -1,8 +1,19 @@
 import bcrypt from 'bcryptjs';
 import { prisma } from '../config/prisma.js';
 import { Role, Status, LotType } from '@prisma/client';
+import { DDL_STATEMENTS } from './schema.sql.js';
 
 export async function runInitialSeed() {
+  // 0. Auto-crear esquema y tablas si no existen en PostgreSQL
+  for (const sql of DDL_STATEMENTS) {
+    try {
+      await prisma.$executeRawUnsafe(sql);
+    } catch (err: any) {
+      // Ignorar advertencias menores si el objeto ya existe
+      console.warn('Aviso DDL:', err.message);
+    }
+  }
+
   // 1. Usuarios: admin / admin y vendedor / 12345
   const adminPasswordHash = await bcrypt.hash('admin', 10);
   const adminUser = await prisma.user.upsert({
