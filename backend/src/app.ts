@@ -53,14 +53,16 @@ app.use((req, res) => {
 // Global Error Handler
 app.use(errorHandler);
 
-// Start server listening on 0.0.0.0 to enable LAN access from mobile phones
-app.listen(ENV.PORT, '0.0.0.0', () => {
-  console.log(`====================================================`);
-  console.log(`🚀 Servidor Carnicería iniciado exitosamente`);
-  console.log(`📡 Escuchando en http://0.0.0.0:${ENV.PORT}`);
-  console.log(`💻 Local: http://localhost:${ENV.PORT}`);
-  console.log(`📱 Red Wi-Fi: http://<TU_IP_LOCAL>:${ENV.PORT}`);
-  console.log(`====================================================`);
-});
+// Start server listening only in standalone/local mode (not in Vercel serverless environment)
+if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
+  app.listen(ENV.PORT, '0.0.0.0', () => {
+    console.log(`====================================================`);
+    console.log(`🚀 Servidor Carnicería iniciado exitosamente`);
+    console.log(`📡 Escuchando en http://0.0.0.0:${ENV.PORT}`);
+    console.log(`💻 Local: http://localhost:${ENV.PORT}`);
+    console.log(`📱 Red Wi-Fi: http://<TU_IP_LOCAL>:${ENV.PORT}`);
+    console.log(`====================================================`);
+  });
+}
 
 export default app;

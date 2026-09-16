@@ -84,3 +84,17 @@ export async function getMe(req: Request, res: Response, next: NextFunction): Pr
     next(error);
   }
 }
+
+export async function setupDb(req: Request, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const { runInitialSeed } = await import('../services/seed.service.js');
+    const result = await runInitialSeed();
+    res.json({
+      success: true,
+      message: 'Base de datos inicializada correctamente. Usuario admin/admin y datos base listos.',
+      data: result,
+    });
+  } catch (error: any) {
+    next(new AppError(`Error al inicializar la base de datos: ${error.message}`, 500));
+  }
+}
